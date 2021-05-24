@@ -20,6 +20,6 @@ display_decimals=7
 name="DEMOCRACY Tokens"
 desc="A fairly distributed token on the stellar network, with no whales possible thanks to the unique automated trustline authorization system. Compatible with ISO20022."
 conditions="There are 1,000,000,000 DEMOCRACY tokens in existence. No individual can own more than 0.1% of the total supply, thus eliminating the possibility of whales. The distribution account will sell the initial supply according to a constant product invariant, to ensure equitable access to the token."
-image="https://jaws.com/Images/DEMOCRACY.png"
+image="https://jaws.com/images/DEMOCRACY.png"
 fixed_number=1000000000
 is_asset_anchored=false
