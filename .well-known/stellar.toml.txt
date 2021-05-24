@@ -1,0 +1,25 @@
+SIGNING_KEY="GDEMOYMTQQ4ZHWVJFIQPORWGQYV3BXQKIRWZ7X4ETB5VZTON3BBNLETI"
+ACCOUNTS=["GDEMOYMTQQ4ZHWVJFIQPORWGQYV3BXQKIRWZ7X4ETB5VZTON3BBNLETI","GDISTY2LMDTLJB36TVX3KNCDDXJ6SWZOJIMZDBJ7JM767LJ4WZ2322TJ"]
+VERSION="2.0.0"
+
+[DOCUMENTATION]
+ORG_NAME="Quantum Financial Systems"
+ORG_URL="https://jaws.com"
+ORG_LOGO="https://jaws.com/Images/DEMOCRACY.png"
+ORG_DESCRIPTION="Advancement of world financial systems into a new era of democracy, justice, and efficiency"
+ORG_PHYSICAL_ADDRESS="California, United States"
+
+[[PRINCIPALS]]
+name="Lead Developer"
+
+# asset with meta info
+[[CURRENCIES]]
+code="DEMOCRACY"
+issuer="GDEMOYMTQQ4ZHWVJFIQPORWGQYV3BXQKIRWZ7X4ETB5VZTON3BBNLETI"
+display_decimals=7
+name="DEMOCRACY Tokens"
+desc="A fairly distributed token on the stellar network, with no whales possible thanks to the unique automated trustline authorization system. Compatible with ISO20022."
+conditions="There are 1,000,000,000 DEMOCRACY tokens in existence. No individual can own more than 0.1% of the total supply, thus eliminating the possibility of whales. The distribution account will sell the initial supply according to a constant product invariant, to ensure equitable access to the token."
+image="https://jaws.com/Images/DEMOCRACY.png"
+fixed_number=1000000000
+is_asset_anchored=false
