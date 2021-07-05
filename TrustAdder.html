@@ -1,0 +1,86 @@
+<html>
+
+<body>
+    <p>Enter your stellar public key:</p>
+    <input type="text" name="name" id="publicKey" value=""/>    
+    <button onclick="createXDR()">Submit</button>
+    <p>Now to sign it, choose one of the two options below:</p>
+    <form id="signForm" action="">
+        <input type="submit" value="Sign in stellar lab" />
+    </form>
+    <button onclick="signDirect(String(document.getElementById('secret').value))">Sign directly (requires secret key input below:)</button>
+    <input type="text" id="secret" value=""/>
+</body>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/8.2.3/stellar-sdk.js"></script>
+<script>
+    const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+    console.log("Hello world")
+    function myFunction(){
+        console.log("Button working")
+    }
+    async function signDirect(secretKey){
+        publicKey = document.getElementById("publicKey").value
+        const account = await server.loadAccount(publicKey);
+        const fee = await server.fetchBaseFee();
+
+        const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET })
+            .addOperation(
+                // this operation funds the new account with XLM
+                StellarSdk.Operation.payment({
+                    destination: "GB6C67YB7BHCPPHDRJZIPOZWAN7PPC7CPFX3SGDQW7GX4QML7UXRE35E",
+                    asset: StellarSdk.Asset.native(),
+                    amount: "2"
+                })
+            )
+            .setTimeout(30)
+            .build();
+            console.log(encoded)
+        console.log(secretKey)
+        transaction.sign(StellarSdk.Keypair.fromSecret(secretKey));
+        try {
+            const transactionResult = await server.submitTransaction(transaction);
+            console.log(transactionResult);
+        } catch (err) {
+            console.error(err);
+        }
+    }
+    async function createXDR() {
+        // Secret key: SBJLCOZ55DXWH7V7MGPQXNE6ZDG767GKEY5KG2SRPZPLORNTDYNX5ORC
+        publicKey = document.getElementById("publicKey").value
+        const account = await server.loadAccount(publicKey);
+        /*
+            Right now, we have one function that fetches the base fee.
+            In the future, we'll have functions that are smarter about suggesting fees,
+            e.g.: `fetchCheapFee`, `fetchAverageFee`, `fetchPriorityFee`, etc.
+        */
+        const fee = await server.fetchBaseFee();
+
+        const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET })
+            .addOperation(
+                // this operation funds the new account with XLM
+                StellarSdk.Operation.payment({
+                    destination: "GB6C67YB7BHCPPHDRJZIPOZWAN7PPC7CPFX3SGDQW7GX4QML7UXRE35E",
+                    asset: StellarSdk.Asset.native(),
+                    amount: "2"
+                })
+            )
+            .setTimeout(30)
+            .build();
+
+        // sign the transaction
+        // transaction.sign(StellarSdk.Keypair.fromSecret(secretString));
+
+        // try {
+        //     const transactionResult = await server.submitTransaction(transaction);
+        //     console.log(transactionResult);
+        // } catch (err) {
+        //     console.error(err);
+        // }}  
+        encoded = transaction.toEnvelope().toXDR().toString("base64")
+        console.log(encoded)
+        stelLabURL = "https://laboratory.stellar.org/#txsigner?xdr=" + encodeURIComponent(encoded) + "&network=test"
+        document.getElementById("signForm").action = stelLabURL;
+    }
+    </script>
+</html>
