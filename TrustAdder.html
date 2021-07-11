@@ -229,7 +229,6 @@
     //helpful stackoverflow reference for the .forEach: https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
     async function createXDR(assetList) {
         console.log("Boop")
-        // Secret key: SBJLCOZ55DXWH7V7MGPQXNE6ZDG767GKEY5KG2SRPZPLORNTDYNX5ORC
         publicKey = document.getElementById("publicKey").value
         try{
             const account = await server.loadAccount(publicKey);
@@ -239,18 +238,8 @@
             //BLOOP = new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC")
             //transactionBuilder.addOperation(StellarSdk.Operation.changeTrust({asset:BLOOP}))
             transactionBuilder.setTimeout(0)
-            transactionBuilder.addMemo(new Memo(MemoText,"TrustAdder"))
+            transactionBuilder.addMemo(StellarSdk.Memo.text('TrustAdder'))
             transaction = transactionBuilder.build();
-
-            // sign the transaction
-            // transaction.sign(StellarSdk.Keypair.fromSecret(secretString));
-
-            // try {
-            //     const transactionResult = await server.submitTransaction(transaction);
-            //     console.log(transactionResult);
-            // } catch (err) {
-            //     console.error(err);
-            // }}  
             activeTransaction = transaction;
             console.log(transaction)
             encoded = transaction.toEnvelope().toXDR().toString("base64")
@@ -264,11 +253,6 @@
             document.getElementById("errormessage").innerHTML = err.message;
             return;
         }
-        /*
-            Right now, we have one function that fetches the base fee.
-            In the future, we'll have functions that are smarter about suggesting fees,
-            e.g.: `fetchCheapFee`, `fetchAverageFee`, `fetchPriorityFee`, etc.
-        */
     }
     </script>
 </html>
