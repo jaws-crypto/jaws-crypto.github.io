@@ -209,6 +209,7 @@
     }
     async function signDirect(secretKey){
         try {
+            document.getElementById("successMessage").innerHTML = "Working... please wait"
             publicKey = document.getElementById("publicKey").value
             const account = await server.loadAccount(publicKey);
             const fee = await server.fetchBaseFee();
