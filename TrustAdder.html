@@ -239,6 +239,7 @@
             //BLOOP = new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC")
             //transactionBuilder.addOperation(StellarSdk.Operation.changeTrust({asset:BLOOP}))
             transactionBuilder.setTimeout(0)
+            transactionBuilder.addMemo(new Memo(MemoText,"TrustAdder"))
             transaction = transactionBuilder.build();
 
             // sign the transaction
