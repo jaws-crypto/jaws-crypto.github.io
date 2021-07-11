@@ -177,7 +177,7 @@
 <script>
     document.getElementById("signing").style.display = "none";
     var activeTransaction = null;
-    const server = new StellarSdk.Server('https://horizon-testnet.stellar.org');
+    const server = new StellarSdk.Server('https://horizon.stellar.org');
     console.log("Hello world")
     function myFunction(){
         console.log("Button working")
@@ -234,12 +234,12 @@
         try{
             const account = await server.loadAccount(publicKey);
             const fee = await server.fetchBaseFee();
-            const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET })
-            //assetList.forEach(indivAsset => transaction.addOperation(StellarSdk.Operation.changeTrust({asset:indivAsset})))
-            BLOOP = new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC")
-            transaction.addOperation(StellarSdk.Operation.changeTrust({asset:BLOOP}))
-            transaction.setTimeout(30)
-            transaction.build();
+            const transactionBuilder = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.PUBLIC })
+            assetList.forEach(indivAsset => transactionBuilder.addOperation(StellarSdk.Operation.changeTrust({asset:indivAsset})))
+            //BLOOP = new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC")
+            //transactionBuilder.addOperation(StellarSdk.Operation.changeTrust({asset:BLOOP}))
+            transactionBuilder.setTimeout(0)
+            transaction = transactionBuilder.build();
 
             // sign the transaction
             // transaction.sign(StellarSdk.Keypair.fromSecret(secretString));
@@ -251,10 +251,10 @@
             //     console.error(err);
             // }}  
             activeTransaction = transaction;
-            console.log(transction)
+            console.log(transaction)
             encoded = transaction.toEnvelope().toXDR().toString("base64")
             console.log(encoded)
-            stelLabURL = "https://laboratory.stellar.org/#txsigner?xdr=" + encodeURIComponent(encoded) + "&network=test"
+            stelLabURL = "https://laboratory.stellar.org/#txsigner?xdr=" + encodeURIComponent(encoded) + "&network=public"
             document.getElementById("signForm").action = stelLabURL;
             document.getElementById("signing").style.display = "block";
             document.getElementById("errormessage").style.display = "none";
