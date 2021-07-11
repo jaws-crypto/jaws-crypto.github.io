@@ -145,7 +145,8 @@
             <option value="AllQadsan">All Qadsan Tokens (5.5 xlm reserve)</option>
             <option value="StandardQadsan">All "standard" Qadsan Tokens (3.5 xlm reserve)</option>
         </select>
-        <button class="button" onclick="createXDR(getAssetList(document.getElementById('assetSelect').value))">Next</button>
+        <!--<button class="button" onclick="createXDR(getAssetList(document.getElementById('assetSelect').value))">Next</button>-->
+        <button class="button" onclick="createXDR('hello')">Next</button>
         <p style="color:red" id="errormessage"></p>
     </div>
     <span id="signing" style='display: none'>
@@ -227,13 +228,16 @@
     }
     //helpful stackoverflow reference for the .forEach: https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript
     async function createXDR(assetList) {
+        console.log("Boop")
         // Secret key: SBJLCOZ55DXWH7V7MGPQXNE6ZDG767GKEY5KG2SRPZPLORNTDYNX5ORC
         publicKey = document.getElementById("publicKey").value
         try{
             const account = await server.loadAccount(publicKey);
             const fee = await server.fetchBaseFee();
             const transaction = new StellarSdk.TransactionBuilder(account, { fee, networkPassphrase: StellarSdk.Networks.TESTNET })
-            assetList.forEach(indivAsset => transaction.addOperation(StellarSdk.Operation.changeTrust({asset:indivAsset})))
+            //assetList.forEach(indivAsset => transaction.addOperation(StellarSdk.Operation.changeTrust({asset:indivAsset})))
+            BLOOP = new StellarSdk.Asset("USDC", "GC5W3BH2MQRQK2H4A6LP3SXDSAAY2W2W64OWKKVNQIAOVWSAHFDEUSDC")
+            transaction.addOperation(StellarSdk.Operation.changeTrust({asset:BLOOP}))
             transaction.setTimeout(30)
             transaction.build();
 
@@ -247,6 +251,7 @@
             //     console.error(err);
             // }}  
             activeTransaction = transaction;
+            console.log(transction)
             encoded = transaction.toEnvelope().toXDR().toString("base64")
             console.log(encoded)
             stelLabURL = "https://laboratory.stellar.org/#txsigner?xdr=" + encodeURIComponent(encoded) + "&network=test"
